@@ -76,13 +76,13 @@ const isRunning = ref(false)
 const terms = ref(0)
 const speed = ref(5)
 const seriesTerms = ref([])
-let sum = 0
+const sum = ref(0)
 let animationId = null
 
 const width = 600
 const height = 300
 
-const piEstimate = computed(() => sum * 4)
+const piEstimate = computed(() => sum.value * 4)
 
 const error = computed(() => {
   if (terms.value === 0) return 0
@@ -198,11 +198,11 @@ function animate() {
   for (let i = 0; i < speed.value; i++) {
     const n = terms.value
     const term = (n % 2 === 0 ? 1 : -1) / (2 * n + 1)
-    sum += term
+    sum.value += term
     terms.value++
   }
 
-  const newPi = sum * 4
+  const newPi = sum.value * 4
   seriesTerms.value = [...seriesTerms.value.slice(-199), newPi]
   drawChart(seriesTerms.value, newPi)
 
@@ -225,7 +225,7 @@ function pause() {
 function reset() {
   pause()
   terms.value = 0
-  sum = 0
+  sum.value = 0
   seriesTerms.value = []
   drawChart([], 0)
 }
